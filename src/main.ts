@@ -17,6 +17,7 @@ async function bootstrap() {
         .setDescription('The note list API description')
         .setVersion('1.0')
         .addTag('Note list')
+        .addBearerAuth()
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/document/swagger', app, documentFactory);

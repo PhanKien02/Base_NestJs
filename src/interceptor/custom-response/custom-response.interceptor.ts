@@ -3,6 +3,7 @@ import {
     NestInterceptor,
     ExecutionContext,
     CallHandler,
+    Response,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,11 +12,12 @@ import { map } from 'rxjs/operators';
 export class TransformResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
-            map((message = 'Success', data) => ({
+            map((data) => ({
                 statusCode: context.switchToHttp().getResponse().statusCode,
-                message: message,
-                data,
-            })),
+                message: "success",
+                data: data,
+            })
+            ),
         );
     }
 }
