@@ -19,15 +19,20 @@ import { AuthModule } from './modules/auth/auth.module';
             isGlobal: true,
             load: [configuration],
         }),
-        TypeOrmModule.forRoot({
-            type: 'mysql',
-            host: configuration().database.host,
-            port: configuration().database.port,
-            username: configuration().database.username,
-            password: configuration().database.password,
-            database: configuration().database.database,
-            entities: [__dirname + '/entity/*{.js,.ts}'],
-            synchronize: true,
+        TypeOrmModule.forRootAsync({
+            useFactory: () => (
+                {
+                    type: 'mysql',
+                    host: configuration().database.host,
+                    port: configuration().database.port,
+                    username: configuration().database.username,
+                    password: configuration().database.password,
+                    database: configuration().database.database,
+                    entities: [__dirname + '/entity/*{.js,.ts}'],
+                    synchronize: true,
+                    autoLoadEntities: true
+                }
+            )
         }),
         AuthModule,
     ],
