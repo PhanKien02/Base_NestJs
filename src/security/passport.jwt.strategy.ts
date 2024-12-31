@@ -1,10 +1,11 @@
 import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import configuration from 'src/configs/configuration';
-import { LoginDto } from 'src/models/dto/login.dto';
+import { LoginDto, PayLoadToken } from 'src/models/dto/login.dto';
 import { UserService } from '@/service/user.service';
+import { IUser } from '@/interface/iuser.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -16,11 +17,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    async validate(payload: LoginDto, done: VerifiedCallback): Promise<any> {
-        const user = await this.userService.validateUser(payload);
+    async validate(payLoad: PayLoadToken, done: VerifiedCallback): Promise<any> {
+        const user = await this.userService.findOne({ id: payLoad.userId });
+
         if (!user) {
-            return done(new UnauthorizedException({ message: 'Thông tin tài khoản hoặc mật khẩu không chính xác' }), false);
+            return done(
+                new UnauthorizedException({ message: 'Người dùng không tồn tại trong hệ thống' }),
+                false,
+            );
         }
+        if (!user.isActive)
+            return done(
+                new ForbiddenException({ message: 'Tài khoản người dùng đã bị khoá' }),
+                false,
+            );
 
         return done(null, user);
     }

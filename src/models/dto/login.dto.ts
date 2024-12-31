@@ -1,13 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsEmail, IsNotEmpty, IsString, Length, MinLength } from "class-validator";
-import { errorMessage } from "src/configs/errorMessage";
-import { RoleType } from "src/security";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsEmail, IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import { errorMessage } from 'src/configs/errorMessage';
+import { RoleType } from 'src/security';
 
 export class LoginDto {
     @IsString()
     @IsNotEmpty()
     @Length(10, 10, {
-        message: errorMessage.PHONE_VALID
+        message: errorMessage.PHONE_VALID,
     })
     @ApiProperty()
     phone: string;
@@ -21,9 +21,12 @@ export class LoginDto {
     @IsNotEmpty()
     @ApiProperty({
         enum: RoleType,
-        default: RoleType.USER
-    }
-    )
+        default: RoleType.USER,
+    })
     role: string;
+}
 
+export interface PayLoadToken {
+    userId: number;
+    role: string;
 }

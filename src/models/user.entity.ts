@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, CreateDateColumn, UpdateDateColumn, AfterLoad, BeforeUpdate } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    BeforeInsert,
+    CreateDateColumn,
+    UpdateDateColumn,
+    AfterLoad,
+    BeforeUpdate,
+} from 'typeorm';
 import { hashSync } from 'bcrypt';
 import { IUser } from 'src/interface/iuser.interface';
 import { RoleType } from 'src/security';
@@ -11,7 +20,7 @@ export class User extends BaseEntity implements IUser {
 
     @Column({
         unique: true,
-        nullable: true
+        nullable: true,
     })
     email: string;
 
@@ -25,10 +34,10 @@ export class User extends BaseEntity implements IUser {
     isActive: boolean;
 
     @Column({
-        type: "char",
+        type: 'char',
         length: 10,
         nullable: false,
-        unique: true
+        unique: true,
     })
     phone: string;
 
@@ -36,9 +45,9 @@ export class User extends BaseEntity implements IUser {
     avatarUrl?: string;
 
     @Column({
-        type: "char",
+        type: 'char',
         length: 12,
-        nullable: true
+        nullable: true,
     })
     citizenIdentificationNumber: string;
 
@@ -50,7 +59,7 @@ export class User extends BaseEntity implements IUser {
 
     @Column({
         nullable: true,
-        default: null
+        default: null,
     })
     resetKey: string;
 
@@ -62,8 +71,6 @@ export class User extends BaseEntity implements IUser {
         default: RoleType.USER,
         update: false,
         type: 'enum',
-
     })
     role: string;
-
 }

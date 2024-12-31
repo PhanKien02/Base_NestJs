@@ -18,25 +18,28 @@ import { TransformResponseInterceptor } from './interceptor/custom-response/cust
             isGlobal: true,
         }),
         TypeOrmModule.forRootAsync({
-            useFactory: () => (
-                {
-                    type: 'mysql',
-                    host: configuration().database.host,
-                    port: configuration().database.port,
-                    username: configuration().database.username,
-                    password: configuration().database.password,
-                    database: configuration().database.database,
-                    entities: [__dirname + '/entity/*{.js,.ts}'],
-                    synchronize: true,
-                    autoLoadEntities: true
-                }
-            )
+            useFactory: () => ({
+                type: 'mysql',
+                host: configuration().database.host,
+                port: configuration().database.port,
+                username: configuration().database.username,
+                password: configuration().database.password,
+                database: configuration().database.database,
+                entities: [__dirname + '/entity/*{.js,.ts}'],
+                synchronize: true,
+                autoLoadEntities: true,
+            }),
         }),
     ],
     controllers: [AppController],
-    providers: [AppService, {
-        provide: APP_INTERCEPTOR,
-        useClass: TransformResponseInterceptor,
-    },],
+    providers: [
+        AppService,
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: TransformResponseInterceptor,
+        },
+    ],
 })
-export class AppModule { constructor(private dataSource: DataSource) { } }
+export class AppModule {
+    constructor(private dataSource: DataSource) {}
+}

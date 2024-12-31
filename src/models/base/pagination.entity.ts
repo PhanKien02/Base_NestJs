@@ -38,5 +38,5 @@ export class Page<T extends BaseEntity> {
         public content: T[],
         public total: number,
         public pageable: PageRequest,
-    ) { }
+    ) {}
 }

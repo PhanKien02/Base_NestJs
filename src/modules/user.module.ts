@@ -11,6 +11,6 @@ import { UserService } from '@/service/user.service';
     imports: [TypeOrmModule.forFeature([User])],
     controllers: [UserController],
     providers: [UserService, UserRepository, JwtService, JwtStrategy],
-    exports: [UserService, UserRepository]
+    exports: [UserService, UserRepository],
 })
-export class UserModule { }
+export class UserModule {}

@@ -9,7 +9,7 @@ export interface IUser {
     resetKey: string;
     citizenIdentificationNumber: string;
     citizenIDFrontUrl: string;
-    citizenIDFrontBack: string
+    citizenIDFrontBack: string;
     role: string;
     avatarUrl?: string;
     created_at?: Date;

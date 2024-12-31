@@ -8,17 +8,19 @@ import configuration from './configs/configuration';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         cors: {
-            origin: "*",
-            methods: ["GET", "POST"],
+            origin: '*',
+            methods: ['GET', 'POST'],
             credentials: true,
         },
     });
     app.useGlobalFilters(new CustomExceptionFilter());
-    app.useGlobalPipes(new ValidationPipe({
-        whitelist: true, // Loại bỏ các trường không có trong DTO
-        forbidNonWhitelisted: true, // Báo lỗi nếu có trường không hợp lệ
-        transform: true, // Tự động chuyển đổi payload thành instance của DTO
-    }));
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true, // Loại bỏ các trường không có trong DTO
+            forbidNonWhitelisted: true, // Báo lỗi nếu có trường không hợp lệ
+            transform: true, // Tự động chuyển đổi payload thành instance của DTO
+        }),
+    );
     const config = new DocumentBuilder()
         .setTitle('Note list example')
         .setDescription('The note list API description')

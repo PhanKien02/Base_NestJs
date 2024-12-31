@@ -2,16 +2,15 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { IResponse } from './interface/response.interface';
 
-
 @Controller()
 export class AppController {
-    constructor(private readonly appService: AppService) { }
+    constructor(private readonly appService: AppService) {}
 
     @Get()
     getHello(): IResponse<any> {
         return {
             data: this.appService.getHello(),
-            message: "Hello word"
-        }
+            message: 'Hello word',
+        };
     }
 }

@@ -4,7 +4,7 @@ import { UserDto } from 'src/models/dto/user.dto';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-    constructor(private readonly reflector: Reflector) { }
+    constructor(private readonly reflector: Reflector) {}
 
     canActivate(context: ExecutionContext): boolean {
         const role = this.reflector.get<string>('role', context.getHandler());
@@ -14,8 +14,9 @@ export class RolesGuard implements CanActivate {
         }
 
         const request = context.switchToHttp().getRequest();
-        const user = request.userId;
+        const user = request.user;
+        console.log({ user });
 
-        return user && request.role && request.role === role
+        return user && user.role && user.role === role;
     }
 }
