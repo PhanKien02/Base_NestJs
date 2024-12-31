@@ -5,11 +5,10 @@ import { DataSource } from 'typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './modules/user/user.module';
-import configuration from './configs/configuration';
+import { UserModule } from '@/modules/user.module';
+import configuration from '@/configs/configuration';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponseInterceptor } from './interceptor/custom-response/custom-response.interceptor';
-import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
     imports: [
@@ -17,7 +16,6 @@ import { AuthModule } from './modules/auth/auth.module';
         ConfigModule.forRoot({
             envFilePath: '.env',
             isGlobal: true,
-            load: [configuration],
         }),
         TypeOrmModule.forRootAsync({
             useFactory: () => (
@@ -34,7 +32,6 @@ import { AuthModule } from './modules/auth/auth.module';
                 }
             )
         }),
-        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService, {
