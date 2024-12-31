@@ -16,6 +16,20 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+        "@/*": ["./src/*" ],
+        "@/models": [ "./src/models/*"],
+        "@/repository": [ "./src/repository"],
+        "@/service": [ "./src/service/*" ],
+        "@/controllers": [ "./src/controllers/*" ],
+        "@/security": [ "./src/security/*" ],
+        "@/interface": [ "./src/interface/*" ],
+        "@/decorators": [ "./src/decorators/*" ],
+        "@/configs": [ "./src/configs/*" ],
+        "@/modules": [ "./src/modules/*" ],
+        "@/utils": [ "./src/utils/*" ],
+      }
+},
+"exclude": ["node_modules"]
 }

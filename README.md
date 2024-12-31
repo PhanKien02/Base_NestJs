@@ -36,10 +36,12 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
+$ npm start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ npm run dev
+$ yarn dev
 
 # production mode
 $ npm run start:prod

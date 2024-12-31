@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CustomExceptionFilter } from './interceptor/custom-exception/custom-exception.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import configuration from './configs/configuration';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -12,6 +14,11 @@ async function bootstrap() {
         },
     });
     app.useGlobalFilters(new CustomExceptionFilter());
+    app.useGlobalPipes(new ValidationPipe({
+        whitelist: true, // Loại bỏ các trường không có trong DTO
+        forbidNonWhitelisted: true, // Báo lỗi nếu có trường không hợp lệ
+        transform: true, // Tự động chuyển đổi payload thành instance của DTO
+    }));
     const config = new DocumentBuilder()
         .setTitle('Note list example')
         .setDescription('The note list API description')
@@ -21,6 +28,6 @@ async function bootstrap() {
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/document/swagger', app, documentFactory);
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(configuration().port ?? 3000);
 }
 bootstrap();
