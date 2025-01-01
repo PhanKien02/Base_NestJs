@@ -13,5 +13,5 @@ export abstract class BaseEntity {
     @Column({ nullable: true })
     deleted_at?: Date;
     @Column({ nullable: true, type: 'bigint' })
-    deletedBy?: number;
+    deleted_by?: number;
 }

@@ -15,6 +15,6 @@ export interface IUser {
     created_at?: Date;
     updated_at?: Date;
     created_by?: number;
-    deletedBy?: number;
+    deleted_by?: number;
     deleted_at?: Date;
 }
