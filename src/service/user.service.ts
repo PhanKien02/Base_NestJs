@@ -1,5 +1,5 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { compare, hashSync } from 'bcrypt';
+import { compare, compareSync, hashSync } from 'bcrypt';
 import { genKeyActive } from '@/utils/gennerate-key';
 import { IUser } from '@/interface/iuser.interface';
 import { InsertResult } from 'typeorm';
@@ -16,7 +16,7 @@ export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly jwtService: JwtService,
-    ) {}
+    ) { }
     async register(createUserDto: CreateUserDto, userId: number): Promise<InsertResult> {
         const validateEmail = await this.userRepository.findOneBy({
             phone: createUserDto.phone,
@@ -110,9 +110,11 @@ export class UserService {
             phone: payLoad.phone,
             role: payLoad.role,
         });
-        if (!user) throw new BadRequestException(HttpStatus.BAD_REQUEST, errorMessage.LOGIN_ERROR);
-        if (!compare(payLoad.password, user.password))
-            throw new BadRequestException(HttpStatus.BAD_REQUEST, errorMessage.LOGIN_ERROR);
+        if (!user) throw new BadRequestException(errorMessage.LOGIN_ERROR);
+
+        if (!compareSync(payLoad.password, user.password)) {
+            throw new BadRequestException(errorMessage.LOGIN_ERROR);
+        }
         const { password, activeKey, resetKey, ...rest } = user;
         return rest;
     }

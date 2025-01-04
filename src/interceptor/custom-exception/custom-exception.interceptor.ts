@@ -27,7 +27,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
-            error: typeof message === 'string' ? message : (message as any).message,
+            error: message
         });
     }
 }
