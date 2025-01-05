@@ -22,10 +22,10 @@ async function bootstrap() {
         }),
     );
     const config = new DocumentBuilder()
-        .setTitle('Note list example')
-        .setDescription('The note list API description')
+        .setTitle('API example')
+        .setDescription('The  API description')
         .setVersion('1.0')
-        .addTag('Note list')
+        .addTag('API')
         .addBearerAuth()
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);

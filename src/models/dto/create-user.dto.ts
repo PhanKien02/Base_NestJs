@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsEmail, IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString, Length, Matches, MinLength } from 'class-validator';
 import { errorMessage } from 'src/configs/errorMessage';
 import { RoleType } from 'src/security';
 
@@ -10,6 +10,9 @@ export class CreateUserDto {
     @Length(10, 10, { message: errorMessage.PHONE_VALID })
     @ApiProperty({ default: '0374824645' })
     @Transform(({ value }) => value.trim()) // Xóa khoảng trắng thừa
+    @Matches(/^(03|05|07|08|09)\d{8}$/, {
+        message: "Mật khẩu không đúng định dạng"
+    })
     phone: string;
 
     @MinLength(6, {
@@ -20,6 +23,9 @@ export class CreateUserDto {
     @IsString()
     @ApiProperty({
         default: 'admin',
+    })
+    @Matches(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/, {
+        message: "Mật khẩu phải tối thiểu 6 ký tự bao gồm ít nhất 1 chữ cái và 1 chữ số"
     })
     password: string;
 

@@ -1,3 +1,4 @@
+import { IsArray } from 'class-validator';
 import {
     ExceptionFilter,
     Catch,
@@ -10,7 +11,7 @@ import {
 @Catch()
 export class CustomExceptionFilter implements ExceptionFilter {
     private readonly logger = new Logger(CustomExceptionFilter.name);
-    catch(exception: unknown, host: ArgumentsHost) {
+    catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const request = ctx.getRequest();
@@ -21,13 +22,12 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
         const message =
-            exception instanceof HttpException ? exception.getResponse() : 'Internal server error';
+            exception instanceof HttpException ? exception.getResponse() : {};
         this.logger.error(`HTTP ${status} Error: ${message}`, (exception as any)?.stack);
         response.status(status).json({
-            statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
-            error: message
+            ...message as Object
         });
     }
 }
